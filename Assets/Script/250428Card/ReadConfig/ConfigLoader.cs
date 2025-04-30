@@ -7,13 +7,13 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public static class ConfigLoader
+public class ConfigLoader
 {
     // 加载 CSV 的通用方法
-    public static IEnumerator LoadCsv<T>(string fileName, Action<T> onComplete)
+    public IEnumerator LoadCsv<T>(string fileName, Action<List<T>> onComplete) where T : new()
     {
         string filePath = Path.Combine(Application.streamingAssetsPath, "Config_csv", fileName);
-        T csvData;
+        List<T> csvData = new List<T>();
 
 #if UNITY_ANDROID && !UNITY_EDITOR
         // Android 平台使用 UnityWebRequest
@@ -48,27 +48,35 @@ public static class ConfigLoader
     }
 
     // 解析 CSV 内容
-    private static void ParseCsv<T>(string csvText, T output)
+    private void ParseCsv<T>(string csvText, List<T> output) where T : new()
     {
-        string[] lines = csvText.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
-        Debug.Log("-----------------------------");
-        for (int i = 0; i < lines.Length; i++)
-        {
-            Debug.Log(lines[i]);
-        }
+        // string[] lines = csvText.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+        // Debug.Log("-----------------------------");
+        // for (int i = 0; i < lines.Length; i++)
+        // {
+        //     Debug.Log(lines[i]);
+        // }
+        //
+        // for (int i = 1; i < lines.Length; i++)
+        // {
+        //     output.Add(new List<string>());
+        //     var values = lines[i].Split(',');
+        //     for (int j = 0; j < values.Length; j++)
+        //     {
+        //         output[i - 1].Add(values[j]);
+        //     }
+        // }
 
-        for (int i = 1; i < lines.Length; i++)
+        if (typeof(T) == typeof(CardData))
         {
-            output.Add(new List<string>());
-            var values = lines[i].Split(',');
-            for (int j = 0; j < values.Length; j++)
-            {
-                output[i - 1].Add(values[j]);
-            }
+            string[] lines = csvText.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            if (lines.Length < 2) return;
+            for ()
+            output.Add(ParseCardData(csvText));
         }
     }
 
-    public static CardData Parse(string input)
+    public CardData ParseCardData(string input)
     {
         // 移除末尾的逗号并分割字段
         var fields = SplitCsv(input.TrimEnd(',')).ToList();
@@ -84,7 +92,7 @@ public static class ConfigLoader
         };
     }
 
-    private static IEnumerable<string> SplitCsv(string input)
+    private IEnumerable<string> SplitCsv(string input)
     {
         bool inQuotes = false;
         StringBuilder current = new StringBuilder();

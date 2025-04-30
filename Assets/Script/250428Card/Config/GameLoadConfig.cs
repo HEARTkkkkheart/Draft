@@ -50,7 +50,7 @@ public class GameLoadConfig : MonoBehaviour
     {
         if (kv.Key == "cfg_Card")
         {
-            yield return ConfigLoader.LoadCsv<List<CardData>>(kv.Value, (csvData) =>
+            yield return ConfigLoader.LoadCsv<CardData>(kv.Value, (csvData) =>
             {
                 if (csvData == null || csvData.Count == 0)
                 {
