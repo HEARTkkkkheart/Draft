@@ -12,6 +12,16 @@ public class GameConfigFiles
     };
 }
 
+public sealed class GameData
+{
+    private static readonly GameData _instance = new GameData();
+    public static GameData Instance => _instance;
+
+    public List<BuffData> BuffDataList = new List<BuffData>();
+
+    public List<CardData> CardDataList = new List<CardData>();
+}
+
 /// <summary>
 /// 类型效果
 /// 1-伤害
