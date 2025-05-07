@@ -501,7 +501,7 @@ public class {className} : IBuffComponent
                 Id = int.Parse(values[0]),
                 Name = values[1],
                 Type = (E_BuffType)int.Parse(values[2]),
-                Mechanism = (E_MechanismType)int.Parse(values[3]),
+                TriggerTiming = (E_TriggerTiming)int.Parse(values[3]),
             });
         }
     }

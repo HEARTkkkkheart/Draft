@@ -20,7 +20,7 @@ public class Buff
     public int Id;
     public string Name;
     public E_BuffType BuffType;
-    public E_MechanismType MechanismType;
+    public E_TriggerTiming MechanismType;
     public int Value;
 
     public void OnApply(GameObject target, GameObject user)

@@ -17,6 +17,8 @@ public class CardManager : MonoBehaviour
     private Card _currentCard;
     private bool _inRound = false;
 
+    private int _cardCount = 0;
+
     private void Start()
     {
         AddListener();
@@ -28,17 +30,24 @@ public class CardManager : MonoBehaviour
     private void AddListener()
     {
         EventCenter.Instance.Register<OnAddCardInfo>(AddCardInfo).UnRegisterWhenGameObjectOnDestroy(gameObject);
+        EventCenter.Instance.Register<OnAddCardInfo>(AddCardInfo).UnRegisterWhenGameObjectOnDestroy(gameObject);
+        EventCenter.Instance.Broadcast<OnAddCardInfo>(new OnAddCardInfo { owner = null, card = null });
     }
 
     private void AddCardInfo(OnAddCardInfo info)
     {
+        Debug.Log($"触发了事件: {_cardCount}");
+        _cardCount++;
+        if (_owner == null || info.owner == null)
+            return;
+
         if (_owner != info.owner)
         {
-            return; 
+            return;
         }
 
         // if (CheckCondition())
-            _cards.Enqueue(info.card);
+        _cards.Enqueue(info.card);
     }
 
     #endregion
@@ -76,7 +85,6 @@ public class CardManager : MonoBehaviour
 
     private void UseCard()
     {
-        
     }
 
     #endregion

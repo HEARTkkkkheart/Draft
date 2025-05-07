@@ -12,15 +12,15 @@ public class GameConfigFiles
     };
 }
 
-public sealed class GameData
-{
-    private static readonly GameData _instance = new GameData();
-    public static GameData Instance => _instance;
-
-    public List<BuffData> BuffDataList = new List<BuffData>();
-
-    public List<CardData> CardDataList = new List<CardData>();
-}
+// public sealed class GameData
+// {
+//     private static readonly GameData _instance = new GameData();
+//     public static GameData Instance => _instance;
+//
+//     public List<BuffData> BuffDataList = new List<BuffData>();
+//
+//     public List<CardData> CardDataList = new List<CardData>();
+// }
 
 /// <summary>
 /// 类型效果
@@ -39,21 +39,46 @@ public enum E_BuffType
     StatusEffect = 5
 }
 
-/// <summary>
-/// 作用机制
-/// 1-立即生效
-/// 2-持续生效
-/// 3-条件触发
-/// 4-全局规则修改
-/// 5-影响其他Buff
-/// </summary>
-public enum E_MechanismType
+// /// <summary>
+// /// 作用机制
+// /// 1-立即生效
+// /// 2-持续生效
+// /// 3-条件触发
+// /// 4-全局规则修改
+// /// 5-影响其他Buff
+// /// </summary>
+// public enum E_MechanismType
+// {
+//     Instant = 1,
+//     Duration = 2,
+//     Conditional = 3,
+//     Global = 4,
+//     Meta = 5
+// }
+
+public enum E_TriggerTiming
 {
-    Instant = 1,
-    Duration = 2,
-    Conditional = 3,
-    Global = 4,
-    Meta = 5
+    // 回合阶段
+    RoundStart = 101,     // 回合开始时
+    RoundEnd = 102,       // 回合结束时
+    
+    // 战斗事件
+    BeforeReceiveDamage = 201,  // 即将受到伤害时
+    AfterReceiveDamage = 202,   // 受到伤害后
+    BeforeDealDamage = 203,     // 造成伤害前
+    AfterDealDamage = 204,      // 造成伤害后
+    
+    // 生命周期
+    UnitSpawn = 301,      // 单位生成时
+    UnitDeath = 302,      // 单位死亡时
+    
+    // 状态变化
+    HpBelowThreshold = 401,     // 生命低于阈值时
+    ResourceFull = 402,         // 资源回满时
+    
+    // 特殊时点
+    EveryTurn = 501,      // 每回合固定触发（可与持续时间配合）
+    Immediate = 502       // 立即触发（用于瞬发类效果）
 }
 
 /// <summary>
@@ -64,7 +89,7 @@ public class BuffData
     public int Id;
     public string Name;
     public E_BuffType Type;
-    public E_MechanismType Mechanism;
+    public E_TriggerTiming TriggerTiming;
 }
 
 /// <summary>

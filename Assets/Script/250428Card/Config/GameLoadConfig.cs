@@ -22,7 +22,7 @@ public class GameLoadConfig : MonoBehaviour
         for (int i = 0; i < BuffDataList.Count; i++)
         {
             var buffData = BuffDataList[i];
-            Debug.Log($"buffData[{i}] = {buffData.Id}, {buffData.Name}, {buffData.Type}, {buffData.Mechanism}");
+            Debug.Log($"buffData[{i}] = {buffData.Id}, {buffData.Name}, {buffData.Type}, {buffData.TriggerTiming}");
         }
     }
 
@@ -168,7 +168,7 @@ public class GameLoadConfig : MonoBehaviour
                 Id = int.Parse(values[0]),
                 Name = values[1],
                 Type = (E_BuffType)int.Parse(values[2]),
-                Mechanism = (E_MechanismType)int.Parse(values[3]),
+                TriggerTiming = (E_TriggerTiming)int.Parse(values[3]),
             });
         }
         
