@@ -6,42 +6,42 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-public class GameLoadConfig : MonoBehaviour
+public static class GameLoadConfig
 {
-    public List<BuffData> BuffDataList = new List<BuffData>();
+    public static List<BuffData> BuffDataList = new List<BuffData>();
 
-    public List<CardData> CardDataList = new List<CardData>();
+    public static List<CardData> CardDataList = new List<CardData>();
 
-    private void Start()
-    {
-        LoadConfig();
-    }
+    // private void Start()
+    // {
+    //     LoadConfig();
+    // }
 
-    private void LogConfig()
-    {
-        for (int i = 0; i < BuffDataList.Count; i++)
-        {
-            var buffData = BuffDataList[i];
-            Debug.Log($"buffData[{i}] = {buffData.Id}, {buffData.Name}, {buffData.Type}, {buffData.TriggerTiming}");
-        }
-    }
+    // private void LogConfig()
+    // {
+    //     for (int i = 0; i < BuffDataList.Count; i++)
+    //     {
+    //         var buffData = BuffDataList[i];
+    //         Debug.Log($"buffData[{i}] = {buffData.Id}, {buffData.Name}, {buffData.Type}, {buffData.TriggerTiming}");
+    //     }
+    // }
 
-    private void LoadConfig()
+    private static void LoadConfig()
     {
         foreach (KeyValuePair<string, string> kv in GameConfigFiles.GameConfigFilesDic)
         {
-            StartCoroutine(LoadCSVConfig(kv));
+            LoadCSVConfig(kv);
         }
     }
 
-    private IEnumerator LoadCSVConfig(KeyValuePair<string, string> kv)
+    private static void LoadCSVConfig(KeyValuePair<string, string> kv)
     {
-        yield return LoadCSV(kv.Key, kv.Value);
+        LoadCSV(kv.Key, kv.Value);
     }
 
 
     // 加载 CSV 的通用方法
-    public IEnumerator LoadCSV(string key, string fileName)
+    public static void LoadCSV(string key, string fileName)
     {
         string filePath = Path.Combine(Application.streamingAssetsPath, "Config_csv", fileName);
         Debug.Log($"filePath : {filePath}");
@@ -72,12 +72,12 @@ public class GameLoadConfig : MonoBehaviour
             Debug.LogError($"CSV 文件不存在: {filePath}");
         }
 
-        yield return null; // 保持协程结构
+        // return null; // 保持协程结构
 #endif
     }
 
     // 解析 CSV 内容
-    private void ParseCsv(string key, string csvText)
+    private static void ParseCsv(string key, string csvText)
     {
         switch (key)
         {
@@ -88,10 +88,9 @@ public class GameLoadConfig : MonoBehaviour
                 LoadBuffConfig(csvText);
                 break;
         }
-
     }
 
-    private void LoadCardConfig(string csvText)
+    private static void LoadCardConfig(string csvText)
     {
         // 分割输入为行，并移除空行
         var lines = csvText.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
@@ -152,7 +151,7 @@ public class GameLoadConfig : MonoBehaviour
         return fields;
     }
 
-    private void LoadBuffConfig(string csvText)
+    private static void LoadBuffConfig(string csvText)
     {
         string[] lines = csvText.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
         for (int i = 0; i < lines.Length; i++)
@@ -171,6 +170,5 @@ public class GameLoadConfig : MonoBehaviour
                 TriggerTiming = (E_TriggerTiming)int.Parse(values[3]),
             });
         }
-        
     }
 }

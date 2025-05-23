@@ -30,14 +30,12 @@ public class CardManager : MonoBehaviour
     private void AddListener()
     {
         EventCenter.Instance.Register<OnAddCardInfo>(AddCardInfo).UnRegisterWhenGameObjectOnDestroy(gameObject);
-        EventCenter.Instance.Register<OnAddCardInfo>(AddCardInfo).UnRegisterWhenGameObjectOnDestroy(gameObject);
-        EventCenter.Instance.Broadcast<OnAddCardInfo>(new OnAddCardInfo { owner = null, card = null });
+        // EventCenter.Instance.Register<OnAddCardInfo>(AddCardInfo).UnRegisterWhenGameObjectOnDestroy(gameObject);
+        // EventCenter.Instance.Broadcast<OnAddCardInfo>(new OnAddCardInfo { owner = null, card = null });
     }
 
     private void AddCardInfo(OnAddCardInfo info)
     {
-        Debug.Log($"触发了事件: {_cardCount}");
-        _cardCount++;
         if (_owner == null || info.owner == null)
             return;
 
@@ -47,6 +45,8 @@ public class CardManager : MonoBehaviour
         }
 
         // if (CheckCondition())
+        Debug.Log($"触发了事件: {_cardCount}");
+        _cardCount++;
         _cards.Enqueue(info.card);
     }
 
@@ -81,6 +81,7 @@ public class CardManager : MonoBehaviour
         {
             _currentCard = _cards.Dequeue();
         }
+        //如果在自己的回合里面并且当前的卡牌队列中还有没有生效的卡牌就进行下一步
     }
 
     private void UseCard()
